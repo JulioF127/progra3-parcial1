@@ -15,11 +15,14 @@ public class Arboles {
 			System.out.println("INGRESE OPCION");
 			opcion = sc.nextInt();
 			if (opcion == 1) {
-				//Invocar método mostrar
-				bt.mostrar();
+
+				ArbolBinario.mostrar(ArbolBinario.raiz);
 			}else if (opcion == 2) {
-				//Invocar método mostrar
-				bt.agregar(sc);
+				int dato;
+				System.out.println("INGRESE VALOR");
+				dato = sc.nextInt();
+				System.out.println("guardar "+dato);
+				ArbolBinario.agregar(dato);
 			}
 			
 		}while(opcion>0);
@@ -30,7 +33,7 @@ public class Arboles {
 }
 
 class ArbolBinario {
-	Nodo raiz;
+	static Nodo raiz;
 	
 	public ArbolBinario() {
 		Nodo nodo2 = new Nodo(2,null,null);
@@ -44,15 +47,44 @@ class ArbolBinario {
 
 	
 
-	public void agregar(Scanner sc) {
-		System.out.println("INGRESE VALOR");
-		//escriba codigo para ingresar
+	public static void agregar(int valor) {
+		Nodo nodoN = new Nodo(valor,null,null);
+		Nodo auxiliar = raiz;
+		Nodo padre;
+		while(true)
+		{
+			padre = auxiliar;
+			if (valor < auxiliar.value)
+			{
+				auxiliar = auxiliar.getIzq();
+				if (auxiliar == null){
+					padre.setIzq(nodoN);
+					return;
+				}
+			}
+			else
+			{
+				auxiliar = auxiliar.getDer();
+				if (auxiliar == null)
+				{
+					padre.setDer(nodoN);
+					return;
+				}
+			}
+		}
+
 	}
 	
 	
 	
-	public void mostrar() {
-		//escriba codigo para mostrar
+	public static void mostrar(Nodo raiz) {
+		if (raiz!=null)
+		{
+			System.out.println(raiz.value);
+			mostrar(raiz.getIzq());
+			mostrar(raiz.getDer());
+		}
+
 	}
 }
 
@@ -61,6 +93,7 @@ class Nodo{
 	int value;
 	private Nodo izq;
 	private Nodo der;
+	private Nodo actual;
 	public Nodo(int value, Nodo izq, Nodo der) {
 		this.value = value;
 		this.izq = izq;
